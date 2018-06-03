@@ -5,16 +5,21 @@ import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 class Index extends Component {
     render() {
         return (
-            <section className="section">
-                            <div className="container">
-                <h1>Index</h1>
+            <section>
+                <div className="jumbotron">
+                      <h1 className="display-4">Bring it!</h1>
+                      <p className="lead">A simple application to settle on who is bringing what to your next event!</p>
+                      <hr className="my-4"/>
+                      <p className="lead">
+                        <a className="btn btn-primary btn-lg" href="#" role="button">Create an event</a>
+                      </p>
+                </div>
 
                 <h2>Example events</h2>
                 <ul>
                     <li><a href="/events/1">1</a></li>
                     <li><a href="/events/42">42</a></li>
                 </ul>
-            </div>
             </section>
         );
     }
@@ -23,12 +28,26 @@ class Index extends Component {
 class App extends Component {
   render() {
     return (
-        <Router>
-            <Switch>
-                <Route path="/events/:id" component={Event} />
-                <Route component={Index} />
-            </Switch>
-        </Router>
+        <div>
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+              <div className="container">
+                  <a className="navbar-brand" href="/">Brint it!</a>
+                  <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                  </button>
+              </div>
+            </nav>
+            <br/>
+
+            <div className="container">
+                <Router>
+                    <Switch>
+                        <Route path="/events/:id" component={Event} />
+                        <Route component={Index} />
+                    </Switch>
+                </Router>
+            </div>
+        </div>
     );
   }
 }

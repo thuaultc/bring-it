@@ -3,13 +3,23 @@ import React, { Component } from 'react';
 class Item extends Component {
     render() {
         const listItems = this.props.from.map((f) =>
-            <li color="grey">x{f.quantity} - {f.name}</li>
+            <li color="grey">{f.name} will bring {f.quantity}</li>
         );
+
+        let sum = function(items, prop){
+            return items.reduce( function(a, b){
+                return a + b[prop];
+            }, 0);
+        };
+
+        const total = sum(this.props.from, "quantity")
 
         return (
             <li>
-                {this.props.name}
-                <ul>{listItems}</ul>
+                <details>
+                    <summary>{total} {this.props.name}</summary>
+                    <ul>{listItems}</ul>
+                </details>
             </li>
         );
     }

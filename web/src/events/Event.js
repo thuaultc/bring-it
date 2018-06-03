@@ -40,8 +40,6 @@ class Event extends Component {
             <div className="container">
             <section className="hero">
               <div className="hero-body">
-                    <a href="/">Index</a>
-                    <hr/>
                   <h1>{this.state.title}</h1>
                   <ul>
                     <li><i className="fas fa-location-arrow"></i> {this.state.location}</li>
