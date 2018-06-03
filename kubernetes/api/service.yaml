@@ -1,0 +1,14 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: api
+  namespace: bring-it
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: api
+    namespace: bring-it
