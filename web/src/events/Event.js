@@ -13,9 +13,9 @@ class Event extends Component {
             items: [],
         };
 
-        var base = "https://bring-it.thuault.com";
+        var base = "http://localhost:8080";
 
-        fetch(base+"/api/events/42")
+        fetch(base+"/api/events/"+this.props.match.params.id)
           .then((resp) => resp.json())
           .then((data) => {
             this.setState({
@@ -37,22 +37,21 @@ class Event extends Component {
         );
 
         return (
-            <div>
+            <div className="container">
             <section className="hero">
               <div className="hero-body">
-                <div className="container">
-                  <h1 className="title is-1">{this.state.title}</h1>
+                    <a href="/">Index</a>
+                    <hr/>
+                  <h1>{this.state.title}</h1>
                   <ul>
                     <li><i className="fas fa-location-arrow"></i> {this.state.location}</li>
                     <li><i className="fas fa-clock"></i> {this.state.date.toLocaleTimeString()}</li>
                     <li><i className="fas fa-info-circle"></i> {this.state.description}</li>
                   </ul>
-                </div>
               </div>
             </section>
             <section className="section">
-                <div className="container">
-                    <h2 className="title is-2">Items</h2>
+                    <h2>Items</h2>
                     <ul>{listItems}</ul>
                     <hr/>
                     <form>
@@ -64,9 +63,8 @@ class Event extends Component {
                         Quantity:
                         <input type="number" name="quantity" />
                       </label>
-                      <input className="button is-primary" type="submit" value="Add" />
+                      <input className="btn btn-primary" type="submit" value="Add" />
                     </form>
-                </div>
             </section>
             </div>
         );

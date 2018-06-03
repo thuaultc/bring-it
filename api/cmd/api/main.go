@@ -8,16 +8,16 @@ import (
 	"net/http"
 
 	"github.com/thuaultc/bring-it/api/pkg/event"
+	"github.com/gorilla/mux"
 )
 
-func index(w http.ResponseWriter, r *http.Request) {
+func index(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte("index"))
 }
 
 func APIEventRead(w http.ResponseWriter, r *http.Request) {
-	// FIXME(sb) get id from request
-	id := "42"
+	id := mux.Vars(r)["id"]
 
 	e, err := event.Read(id)
 	if err != nil {
@@ -48,11 +48,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	mux := &http.ServeMux{}
-	mux.HandleFunc("/api/events/", APIEventRead)
-	mux.HandleFunc("/", index)
+	r := mux.NewRouter()
+	r.HandleFunc("/api/events/{id}", APIEventRead)
+	r.HandleFunc("/", index)
 
-	if err := http.Serve(l, mux); err != nil {
+	if err := http.Serve(l, r); err != nil {
 		log.Fatal(err)
 	}
 }
