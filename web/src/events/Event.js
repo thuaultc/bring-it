@@ -13,9 +13,9 @@ class Event extends Component {
             items: [],
         };
 
-        var base = "http://localhost:8080";
+        var base = "https://api.bring-it.thuault.com";
 
-        fetch(base+"/api/events/"+this.props.match.params.id)
+        fetch(base + "/events/" + this.props.match.params.id)
           .then((resp) => resp.json())
           .then((data) => {
             this.setState({
