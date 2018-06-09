@@ -22,7 +22,7 @@ class Event extends Component {
                 title: data.name,
                 location: data.location,
                 description: data.description,
-                date: new Date(),
+                date: new Date(data.date),
                 items: data.items,
             })
           })
