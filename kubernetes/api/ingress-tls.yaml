@@ -2,7 +2,7 @@
 kind: Ingress
 apiVersion: extensions/v1beta1
 metadata:
-  name: bring-it
+  name: api
   namespace: bring-it
   annotations:
     kubernetes.io/tls-acme: "true"
@@ -10,13 +10,13 @@ metadata:
 spec:
   tls:
   - hosts:
-    - bring-it.thuault.com
-    secretName: bring-it-tls
+    - api.bring-it.thuault.com
+    secretName: api-bring-it-tls
   rules:
-  - host: bring-it.thuault.com
+  - host: api.bring-it.thuault.com
     http:
       paths:
-      - path: /api
+      - path: /
         backend:
           serviceName: api
           servicePort: 8080
