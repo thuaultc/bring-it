@@ -1,8 +1,8 @@
 package event
 
 import (
-	"time"
 	"errors"
+	"time"
 )
 
 var events = map[string]Event{
@@ -13,15 +13,15 @@ var events = map[string]Event{
 		Description: "nothing to show here for now...",
 		Items: []Item{
 			{
-				ID: "1",
+				ID:   "1",
 				Name: "Machine à raclette",
 				From: []ItemFrom{
 					{
-						Name: "Bod",
+						Name:     "Bod",
 						Quantity: 1,
 					},
 					{
-						Name: "Danie",
+						Name:     "Danie",
 						Quantity: 42,
 					},
 				},
@@ -35,29 +35,29 @@ var events = map[string]Event{
 		Description: "nothing to show here for now...",
 		Items: []Item{
 			{
-				ID: "1",
+				ID:   "1",
 				Name: "Machine à raclette",
 				From: []ItemFrom{
 					{
-						Name: "Bod",
+						Name:     "Bod",
 						Quantity: 1,
 					},
 					{
-						Name: "Danie",
+						Name:     "Danie",
 						Quantity: 42,
 					},
 				},
 			},
 			{
-				ID: "2",
+				ID:   "2",
 				Name: "Fromage",
 				From: []ItemFrom{
 					{
-						Name: "John",
+						Name:     "John",
 						Quantity: 18,
 					},
 					{
-						Name: "Marie",
+						Name:     "Marie",
 						Quantity: 13,
 					},
 				},
@@ -72,23 +72,23 @@ type Event struct {
 	Date        time.Time `json:"date"`
 	Location    string    `json:"location"`
 	Description string    `json:"description"`
-	Items []Item `json:"items"`
+	Items       []Item    `json:"items"`
 }
 
 type Item struct {
-	ID string `json:"id"`
-	Name string `json:"name"`
+	ID   string     `json:"id"`
+	Name string     `json:"name"`
 	From []ItemFrom `json:"from"`
 }
 
 type ItemFrom struct {
 	Name     string `json:"name"`
-	Quantity uint  `json:"quantity"`
+	Quantity uint   `json:"quantity"`
 }
 
 func Read(id string) (*Event, error) {
 	e, ok := events[id]
-	if !ok{
+	if !ok {
 		return nil, errors.New("not found")
 	}
 

@@ -7,8 +7,8 @@ import (
 	"net"
 	"net/http"
 
-	"github.com/thuaultc/bring-it/api/pkg/event"
 	"github.com/gorilla/mux"
+	"github.com/thuaultc/bring-it/api/pkg/event"
 )
 
 func index(w http.ResponseWriter, _ *http.Request) {
@@ -49,7 +49,7 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/api/events/{id}", APIEventRead)
+	r.HandleFunc("/events/{id}", APIEventRead)
 	r.HandleFunc("/", index)
 
 	if err := http.Serve(l, r); err != nil {
