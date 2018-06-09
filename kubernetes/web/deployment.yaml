@@ -1,0 +1,22 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: web
+  namespace: bring-it
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: web
+        namespace: bring-it
+    spec:
+      imagePullSecrets:
+      - name: registry-credentials
+      containers:
+      - image: registry.thuault.com/bring-it/web:0.1.6
+        imagePullPolicy: Always
+        name: web
+        ports:
+        - containerPort: 80
