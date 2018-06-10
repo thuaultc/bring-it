@@ -10,11 +10,11 @@ type Event struct {
 	Name         string      `bson:"name" json:"name"`
 	EventDate    time.Time   `bson:"event_date" json:"event_date"`
 	CreationDate time.Time   `bson:"creation_date" json:"creation_date"`
-	Location     string      `bson:"address" json:"address"`
+	Address      string      `bson:"address" json:"address"`
 	Description  string      `bson:"description" json:"description"`
 	Items        []Item      `bson:"items" json:"items"`
 	Users        []User      `bson:"users" json:"users"`
-	Inventory    []Inventory `bson:"users" json:"amount"`
+	Inventory    []Inventory `bson:"inventory" json:"inventory"`
 }
 
 // Item structure contains all the item names and ids, with an optional amount needed for the party
@@ -27,7 +27,7 @@ type Item struct {
 // User structure contains the user names and ids
 type User struct {
 	ID   string `bson:"id" json:"id"`
-	Name uint   `bson:"name" json:"name"`
+	Name string `bson:"name" json:"name"`
 }
 
 // Inventory structure represents which user brings what amount of a specific item

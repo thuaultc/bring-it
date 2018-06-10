@@ -9,6 +9,8 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/rs/xid"
+	"github.com/thuaultc/bring-it/api/pkg/models"
 	"github.com/thuaultc/bring-it/api/pkg/mongo"
 )
 
@@ -19,7 +21,26 @@ func index(w http.ResponseWriter, _ *http.Request) {
 }
 
 func APIEventCreate(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "not implemented yet !")
+	defer r.Body.Close()
+
+	var event models.Event
+	if err := json.NewDecoder(r.Body).Decode(&event); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid request payload"))
+		return
+	}
+
+	guid := xid.New()
+	event.ID = guid.String()
+
+	err := mongoConn.Create(event)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("not found"))
+		fmt.Fprintln(w, err)
+		return
+	}
+	json.NewEncoder(w).Encode(event)
 }
 
 func APIEventUpdate(w http.ResponseWriter, r *http.Request) {
