@@ -19,20 +19,18 @@ type Event struct {
 
 // Item structure contains all the item names and ids, with an optional amount needed for the party
 type Item struct {
-	ID     string `bson:"id" json:"id"`
 	Name   string `bson:"name" json:"name"`
 	Needed uint   `bson:"needed" json:"needed"`
 }
 
 // User structure contains the user names and ids
 type User struct {
-	ID   string `bson:"id" json:"id"`
 	Name string `bson:"name" json:"name"`
 }
 
 // Inventory structure represents which user brings what amount of a specific item
 type Inventory struct {
-	User     string `bson:"user" json:"name"`
-	Item     string `bson:"item" json:"item"`
-	Quantity uint   `bson:"quantity" json:"quantity"`
+	User     uint `bson:"user" json:"name"`
+	Item     uint `bson:"item" json:"item"`
+	Quantity uint `bson:"quantity" json:"quantity"`
 }
