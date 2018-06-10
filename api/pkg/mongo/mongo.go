@@ -17,7 +17,7 @@ type Conn struct {
 var db *mgo.Database
 
 // Connect establishes the connection to the database
-func (c *Conn) Connect(url string) {
+func (c *Conn) Connect() {
 	session, err := mgo.Dial(c.Server)
 	if err != nil {
 		log.Fatal(err)
