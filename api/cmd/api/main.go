@@ -23,6 +23,17 @@ func index(w http.ResponseWriter, _ *http.Request) {
 func APIEventCreate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
+	if origin := r.Header.Get("Origin"); origin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	}
+
+	// Stop here if its Preflighted OPTIONS request
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	var event models.Event
 	if err := json.NewDecoder(r.Body).Decode(&event); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -44,7 +55,36 @@ func APIEventCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func APIEventUpdate(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "not implemented yet !")
+	defer r.Body.Close()
+
+	if origin := r.Header.Get("Origin"); origin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	}
+
+	// Stop here if its Preflighted OPTIONS request
+	if r.Method == "OPTIONS" {
+		return
+	}
+
+	var event models.Event
+	if err := json.NewDecoder(r.Body).Decode(&event); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte("Invalid request payload"))
+		return
+	}
+
+	id := mux.Vars(r)["id"]
+
+	err := mongoConn.Update(id, event)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("not found"))
+		fmt.Fprintln(w, err)
+		return
+	}
+	json.NewEncoder(w).Encode(event)
 }
 
 func APIEventRead(w http.ResponseWriter, r *http.Request) {
