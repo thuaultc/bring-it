@@ -21,6 +21,7 @@ func index(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+// APIEventCreate controls the event creation
 func APIEventCreate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
@@ -48,6 +49,7 @@ func APIEventCreate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(event)
 }
 
+// APIEventUpdate controls the event update
 func APIEventUpdate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
@@ -74,6 +76,7 @@ func APIEventUpdate(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(event)
 }
 
+// APIEventRead controls the event retrieval
 func APIEventRead(w http.ResponseWriter, r *http.Request) {
 	if handleCORS(w, r) {
 		return
