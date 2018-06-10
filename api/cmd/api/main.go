@@ -7,6 +7,7 @@ import (
 	"log"
 	"net"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/xid"
@@ -104,7 +105,7 @@ func handleCORS(w http.ResponseWriter, r *http.Request) bool {
 }
 
 func init() {
-	mongoConn.Server = "mongodb://admin:password@localhost"
+	mongoConn.Server = os.Getenv("SERVER_URL")
 	mongoConn.Database = "admin"
 	mongoConn.Connect()
 }

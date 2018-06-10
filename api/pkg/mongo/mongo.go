@@ -22,6 +22,7 @@ func (c *Conn) Connect() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	session.SetSafe(&mgo.Safe{WMode: "majority"})
 	db = session.DB(c.Database)
 }
 
