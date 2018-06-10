@@ -17,8 +17,7 @@ class Index extends Component {
 
                 <h2>Example events</h2>
                 <ul>
-                    <li><a href="/events/1">1</a></li>
-                    <li><a href="/events/42">42</a></li>
+                    <li><a href="/events/bcenr2tokq1rese4e80g">bcenr2tokq1rese4e80g</a></li>
                 </ul>
             </section>
         );

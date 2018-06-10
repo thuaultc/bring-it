@@ -9,8 +9,11 @@ class Event extends Component {
             title: "fixme",
             location: "fixme",
             description: "fixme",
-            date: new Date(),
+            event_date: new Date(),
+            creation_date: new Date(),
             items: [],
+            users: [],
+            inventory: []
         };
 
         var base = "https://api.bring-it.thuault.com";
@@ -20,10 +23,13 @@ class Event extends Component {
           .then((data) => {
             this.setState({
                 title: data.name,
-                location: data.location,
+                address: data.address,
                 description: data.description,
-                date: new Date(data.date),
+                event_date: new Date(data.event_date),
+                creation_date: new Date(data.creation_date),
                 items: data.items,
+                users: data.users,
+                inventory: data.inventory
             })
           })
           .catch((err) => {
@@ -42,8 +48,9 @@ class Event extends Component {
               <div className="hero-body">
                   <h1>{this.state.title}</h1>
                   <ul>
-                    <li><i className="fas fa-location-arrow"></i> {this.state.location}</li>
-                    <li><i className="fas fa-clock"></i> {this.state.date.toLocaleTimeString()}</li>
+                    <li><i className="fas fa-location-arrow"></i> {this.state.address}</li>
+                    <li><i className="fas fa-clock"></i> {this.state.event_date.toLocaleTimeString()}</li>
+                    <li><i className="fas fa-clock"></i> {this.state.creation_date.toLocaleTimeString()}</li>
                     <li><i className="fas fa-info-circle"></i> {this.state.description}</li>
                   </ul>
               </div>
