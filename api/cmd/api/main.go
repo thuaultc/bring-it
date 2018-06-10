@@ -105,8 +105,8 @@ func handleCORS(w http.ResponseWriter, r *http.Request) bool {
 }
 
 func init() {
-	mongoConn.Server = os.Getenv("SERVER_URL")
-	mongoConn.Database = "admin"
+	mongoConn.Server = os.Getenv("DB_URI")
+	mongoConn.Database = os.Getenv("DB_NAME")
 	mongoConn.Connect()
 }
 
