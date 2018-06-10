@@ -1,1 +1,2 @@
 kubernetes/api/registry-secret.yaml
+kubernetes/mongo/shared-bootstrap-data-secret.yaml
