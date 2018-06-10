@@ -3,40 +3,57 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"log"
 	"net"
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/thuaultc/bring-it/api/pkg/event"
+	"github.com/thuaultc/bring-it/api/pkg/mongo"
 )
+
+var mongoConn = mongo.Conn{}
 
 func index(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("index"))
+}
+
+func APIEventCreate(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "not implemented yet !")
+}
+
+func APIEventUpdate(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintln(w, "not implemented yet !")
 }
 
 func APIEventRead(w http.ResponseWriter, r *http.Request) {
+	if origin := r.Header.Get("Origin"); origin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	}
+
+	// Stop here if its Preflighted OPTIONS request
+	if r.Method == "OPTIONS" {
+		return
+	}
+
 	id := mux.Vars(r)["id"]
 
-	e, err := event.Read(id)
+	e, err := mongoConn.Read(id)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("not found"))
 		return
 	}
 
-	if origin := r.Header.Get("Origin"); origin != "" {
-		w.Header().Set("Access-Control-Allow-Origin", origin)
-		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-	}
-	// Stop here if its Preflighted OPTIONS request
-	if r.Method == "OPTIONS" {
-		return
-	}
-
 	json.NewEncoder(w).Encode(e)
+}
+
+func init() {
+	mongoConn.Server = "mongodb://admin:password@localhost"
+	mongoConn.Database = "admin"
+	mongoConn.Connect()
 }
 
 func main() {
@@ -49,7 +66,9 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/events/{id}", APIEventRead)
+	r.HandleFunc("/events", APIEventCreate).Methods("POST")
+	r.HandleFunc("/events/{id}", APIEventUpdate).Methods("PUT")
+	r.HandleFunc("/events/{id}", APIEventRead).Methods("GET")
 	r.HandleFunc("/", index)
 
 	if err := http.Serve(l, r); err != nil {
