@@ -23,14 +23,7 @@ func index(w http.ResponseWriter, _ *http.Request) {
 func APIEventCreate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	if origin := r.Header.Get("Origin"); origin != "" {
-		w.Header().Set("Access-Control-Allow-Origin", origin)
-		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-	}
-
-	// Stop here if its Preflighted OPTIONS request
-	if r.Method == "OPTIONS" {
+	if handleCORS(w, r) {
 		return
 	}
 
@@ -57,14 +50,7 @@ func APIEventCreate(w http.ResponseWriter, r *http.Request) {
 func APIEventUpdate(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 
-	if origin := r.Header.Get("Origin"); origin != "" {
-		w.Header().Set("Access-Control-Allow-Origin", origin)
-		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-	}
-
-	// Stop here if its Preflighted OPTIONS request
-	if r.Method == "OPTIONS" {
+	if handleCORS(w, r) {
 		return
 	}
 
@@ -88,19 +74,11 @@ func APIEventUpdate(w http.ResponseWriter, r *http.Request) {
 }
 
 func APIEventRead(w http.ResponseWriter, r *http.Request) {
-	if origin := r.Header.Get("Origin"); origin != "" {
-		w.Header().Set("Access-Control-Allow-Origin", origin)
-		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
-	}
-
-	// Stop here if its Preflighted OPTIONS request
-	if r.Method == "OPTIONS" {
+	if handleCORS(w, r) {
 		return
 	}
 
 	id := mux.Vars(r)["id"]
-
 	e, err := mongoConn.Read(id)
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
@@ -109,6 +87,20 @@ func APIEventRead(w http.ResponseWriter, r *http.Request) {
 	}
 
 	json.NewEncoder(w).Encode(e)
+}
+
+func handleCORS(w http.ResponseWriter, r *http.Request) bool {
+	if origin := r.Header.Get("Origin"); origin != "" {
+		w.Header().Set("Access-Control-Allow-Origin", origin)
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	}
+
+	// Stop here if its Preflighted OPTIONS request
+	if r.Method == "OPTIONS" {
+		return true
+	}
+	return false
 }
 
 func init() {
