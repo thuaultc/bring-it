@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 
 import EventDescription from "./EventDescription";
-import Inventory from "./Inventory";
+import ItemList from "./ItemList";
 
 const EventWrapper = styled.div`
   height: 100vh;
@@ -11,33 +11,30 @@ const EventWrapper = styled.div`
   flex-flow: column nowrap;
   align-items: center;
   justify-content: flex-start;
-
-  background-image: linear-gradient(
-    to left top,
-    #051937,
-    #004d7a,
-    #008793,
-    #00bf72,
-    #a8eb12
-  );
 `;
 
 const EventDescriptionWrapper = styled.div`
   height: 200px;
   width: 600px;
 
-  background: white;
+  background: #f1f1f1;
   border-radius: 5px;
+
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 
   margin: 8px 0;
 `;
 
-const EventInventoryWrapper = styled.div`
+const EventItemListWrapper = styled.div`
   height: 200px;
   width: 600px;
 
-  background: white;
+  background: #f1f1f1;
   border-radius: 5px;
+
+  /* Add shadows to create the "card" effect */
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 `;
 
 function Event(props) {
@@ -52,9 +49,9 @@ function Event(props) {
           description={props.description}
         />
       </EventDescriptionWrapper>
-      <EventInventoryWrapper>
-        <Inventory items={props.items} />
-      </EventInventoryWrapper>
+      <EventItemListWrapper>
+        <ItemList items={props.items} />
+      </EventItemListWrapper>
     </EventWrapper>
   );
 }

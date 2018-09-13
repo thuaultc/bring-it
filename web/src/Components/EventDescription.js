@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import GoogleMap from "./Maps/OpenLayerMap";
+// import GoogleMap from "./Maps/OpenLayerMap";
 
 const EventDescriptionWrapper = styled.div`
   height: 100%;
@@ -42,10 +42,10 @@ const EventDescriptionDescription = styled.div`
   grid-row: 3;
 `;
 
-const GoogleMapWrapper = styled(GoogleMap)`
-  grid-column: 2;
-  grid-row: 3;
-`;
+// const GoogleMapWrapper = styled(GoogleMap)`
+//   grid-column: 2;
+//   grid-row: 3;
+// `;
 
 const Address = styled.div`
   grid-column: 2;
@@ -57,7 +57,9 @@ function EventDescription(props) {
   return (
     <EventDescriptionWrapper>
       <EventDescriptionName>Evénement: {props.name}</EventDescriptionName>
-      <EventDescriptionDate>Quand ? {props.eventDate}</EventDescriptionDate>
+      <EventDescriptionDate>
+        Quand ? {new Date(props.eventDate).toDateString()}
+      </EventDescriptionDate>
       <EventDescriptionDescription>
         {props.description}
       </EventDescriptionDescription>

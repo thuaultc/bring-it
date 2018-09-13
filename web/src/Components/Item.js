@@ -1,30 +1,26 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import Name from "./Name";
-import Count from "./Count";
 import GuestList from "./GuestList";
 
 const ItemWrapper = styled.div`
   display: flex;
   justify-content: space-around;
-
-  border: 1px solid red;
 `;
-
 const CounterGroup = styled.div`
   display: flex;
 `;
+const CurrentAmount = styled.div``;
+const TotalAmount = styled.div``;
 
 function Item(props) {
   return (
     <ItemWrapper>
-      <Name className="name" name={props.name} />
-      <span>{"Got"}</span>
+      <div className="name">{props.name}</div>
       <CounterGroup>
-        <Count count={props.count} />
+        <CurrentAmount>{props.count}</CurrentAmount>
         {"/"}
-        <Count count={props.needed} />
+        <TotalAmount>{props.needed}</TotalAmount>
       </CounterGroup>
       <GuestList guests={props.guests} />
     </ItemWrapper>

@@ -12,7 +12,7 @@ const ItemListWrapper = styled.div`
   padding: 0.5em;
 `;
 
-function Inventory(props) {
+export default function ItemList(props) {
   const items = props.items.map((item, index) => {
     return (
       <Item
@@ -27,5 +27,3 @@ function Inventory(props) {
 
   return <ItemListWrapper>{items}</ItemListWrapper>;
 }
-
-export default Inventory;

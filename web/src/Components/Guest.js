@@ -1,9 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-import Count from "./Count";
-import Name from "./Name";
-
 const GuestWrapper = styled.div`
   display: flex;
 `;
@@ -11,9 +8,9 @@ const GuestWrapper = styled.div`
 function Guest(props) {
   return (
     <GuestWrapper>
-      <Name name={props.name} />
+      <div>{props.name}</div>
       {" / "}
-      <Count count={props.count} />
+      <div>{props.count}</div>
     </GuestWrapper>
   );
 }
