@@ -1,12 +1,21 @@
-import React from 'react'
-import Count from './Count'
-import Name from './Name'
+import React from "react";
+import styled from "styled-components";
 
-function Guest (props) {
-    return <div>
-        <Name name={props.name}/>  
-        <Count count={props.count}/>
-    </div>
+import Count from "./Count";
+import Name from "./Name";
+
+const GuestWrapper = styled.div`
+  display: flex;
+`;
+
+function Guest(props) {
+  return (
+    <GuestWrapper>
+      <Name name={props.name} />
+      {" / "}
+      <Count count={props.count} />
+    </GuestWrapper>
+  );
 }
 
-export default Guest
+export default Guest;
