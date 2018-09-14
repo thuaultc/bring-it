@@ -25,7 +25,8 @@ export default class Home extends React.Component {
   };
 
   handleChange = key => ev => {
-    this.setState({ [key]: ev.target.value });
+    const value = ev.target.value;
+    this.setState({ [key]: value });
   };
 
   handleCreate = ev => {
@@ -61,7 +62,7 @@ export default class Home extends React.Component {
               <input
                 required
                 className="input"
-                type="date"
+                type="datetime-local"
                 placeholder="Date"
                 value={this.state.eventDate}
                 onChange={this.handleChange("eventDate")}

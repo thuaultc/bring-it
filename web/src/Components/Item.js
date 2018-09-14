@@ -3,7 +3,11 @@ import styled from "styled-components";
 
 import GuestList from "./GuestList";
 
-const ItemAndGuestWrapper = styled.div``;
+const ItemAndGuestWrapper = styled.div`
+  border-top: 1px solid grey;
+  margin-top: 1em;
+  padding-top: 1em;
+`;
 
 const ItemWrapper = styled.form`
   width: 90%;
@@ -13,7 +17,9 @@ const ItemWrapper = styled.form`
   display: flex;
   justify-content: space-between;
 
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid lightgrey;
 `;
 
 const CounterGroup = styled.div`
@@ -65,26 +71,31 @@ class Item extends React.Component {
   handleItemSave = ev => {
     ev.preventDefault();
 
-    this.setState(
-      prev => {
-        const keys = Object.keys(prev.payload);
+    let isDelete = !this.state.hasChanges;
+    if (isDelete) {
+      this.props.onDeleteItem();
+    } else {
+      this.setState(
+        prev => {
+          const keys = Object.keys(prev.payload);
 
-        let nextState = prev;
-        keys.forEach(key => {
-          let value = prev.payload[key];
+          let nextState = prev;
+          keys.forEach(key => {
+            let value = prev.payload[key];
 
-          if (key === "count" || (key === "needed" && value === "")) {
-            nextState[key] = "0";
-          }
-        });
+            if (key === "count" || (key === "needed" && value === "")) {
+              nextState[key] = "0";
+            }
+          });
 
-        return nextState;
-      },
-      () => {
-        this.props.onUpdateItem(this.state.payload);
-        this.setState({ hasChanges: false });
-      }
-    );
+          return nextState;
+        },
+        () => {
+          this.props.onUpdateItem(this.state.payload);
+          this.setState({ hasChanges: false });
+        }
+      );
+    }
   };
 
   /** Initialize the component state from props. */
@@ -116,7 +127,18 @@ class Item extends React.Component {
     return (
       <ItemAndGuestWrapper>
         <ItemWrapper onSubmit={this.handleItemSave}>
-          <div style={{ flex: "0.3" }}>
+          <button
+            type="submit"
+            style={{
+              flex: "0.2",
+              backgroundColor: this.state.hasChanges
+                ? "greenyellow"
+                : "transparent"
+            }}
+          >
+            {this.state.hasChanges ? "Save" : "Delete"}
+          </button>
+          <div style={{ flex: "0.6" }}>
             <Input
               value={this.state.payload.name}
               onChange={this.handleChange("name")}
@@ -133,19 +155,6 @@ class Item extends React.Component {
               />
             </TotalAmount>
           </CounterGroup>
-          {this.state.hasChanges && (
-            <button
-              type="submit"
-              style={{
-                backgroundColor: "greenyellow",
-                position: "absolute",
-                right: "-4em",
-                width: "4em"
-              }}
-            >
-              Save
-            </button>
-          )}
         </ItemWrapper>
         <GuestList
           style={{ flex: "1" }}

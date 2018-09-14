@@ -61,6 +61,18 @@ export default class ItemList extends React.Component {
     );
   };
 
+  handleDeleteItem = index => () => {
+    const items = this.state.payload.items.filter((_, i) => i !== index);
+    this.setState(
+      prev => ({
+        payload: { items }
+      }),
+      () => {
+        store.updateEvent(this.state.payload, this.props.id);
+      }
+    );
+  };
+
   /** Initialize the component state from props. */
   componentDidUpdate(prevProps) {
     const keys = Object.keys(this.state.payload);
@@ -97,6 +109,7 @@ export default class ItemList extends React.Component {
           needed={item.needed}
           guests={item.guests}
           onUpdateItem={this.handleUpdateItems(items, index)}
+          onDeleteItem={this.handleDeleteItem(index)}
         />
       );
     });
