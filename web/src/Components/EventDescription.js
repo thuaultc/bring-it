@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 
-// import GoogleMap from "./Maps/OpenLayerMap";
+import { store } from "./App";
 
-const EventDescriptionWrapper = styled.div`
+const EventDescriptionWrapper = styled.form`
   height: 100%;
 
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 2em 1em 1fr;
+  grid-template-rows: 2em 2em 2em 1fr;
   grid-gap: 0.5em;
 
   padding: 0.5em;
@@ -16,18 +16,24 @@ const EventDescriptionWrapper = styled.div`
   overflow: hidden;
 `;
 
-const EventDescriptionName = styled.div`
+const EventName = styled.div`
   grid-column: 1 / 3;
   grid-row: 1;
 
   line-height: 2em;
+
+  display: flex;
 `;
 
-const EventDescriptionDate = styled.div`
+const EventDate = styled.div`
   grid-column: 1 / 3;
   grid-row: 2;
 
-  line-height: 1em;
+  line-height: 2em;
+
+  display: flex;
+
+  overflow: hidden;
 `;
 
 // const EventDescriptionCreationDate = styled.div`
@@ -37,9 +43,17 @@ const EventDescriptionDate = styled.div`
         {props.creationDate}
     </EventDescriptionCreationDate> */
 
-const EventDescriptionDescription = styled.div`
-  grid-column: 1;
+const Address = styled.div`
+  grid-column: 1 / 3;
   grid-row: 3;
+
+  display: flex;
+  height: 2em;
+`;
+
+const EventDescriptionArea = styled.textarea`
+  grid-column: 1 / 3;
+  grid-row: 4;
 `;
 
 // const GoogleMapWrapper = styled(GoogleMap)`
@@ -47,26 +61,158 @@ const EventDescriptionDescription = styled.div`
 //   grid-row: 3;
 // `;
 
-const Address = styled.div`
-  grid-column: 2;
-  grid-row: 3;
+const Input = styled.input`
+  flex: 1;
+
+  margin-left: 1em;
+  padding-left: 0.5em;
 `;
 
-// {props.address}</div>
-function EventDescription(props) {
-  return (
-    <EventDescriptionWrapper>
-      <EventDescriptionName>Evénement: {props.name}</EventDescriptionName>
-      <EventDescriptionDate>
-        Quand ? {new Date(props.eventDate).toDateString()}
-      </EventDescriptionDate>
-      <EventDescriptionDescription>
-        {props.description}
-      </EventDescriptionDescription>
-      <Address>{props.address}</Address>
-      {/* <GoogleMapWrapper address={props.address} /> */}
-    </EventDescriptionWrapper>
-  );
+const Label = styled.div`
+  flex: 0.15;
+  flex-shrink: 0;
+
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Button = styled.button`
+  grid-column: 1 / 3;
+
+  background-color: greenyellow;
+`;
+
+class EventDescription extends React.Component {
+  state = {
+    payload: {
+      name: "",
+      eventDate: "",
+      creationDate: "",
+      address: "",
+      description: ""
+    },
+    hasChanges: false
+  };
+
+  handleChange = key => ev => {
+    const value = ev.target.value;
+
+    this.setState(prev => ({
+      ...prev,
+      payload: { ...prev.payload, [key]: value },
+      hasChanges: true
+    }));
+  };
+
+  handleUpdate = ev => {
+    ev.preventDefault();
+
+    const nextPayload = {
+      ...this.props,
+      ...this.state.payload
+    };
+
+    // Object.keys(this.state.payload).reduce((acc, key) => {
+    //     let value = this.state.payload[key];
+
+    //     // if (key === "eventDate" && value && value !== "Invalid Date") {
+    //     //   value = new Date(value).toISOString();
+    //     // }
+
+    //     return {
+    //       ...acc,
+    //       [key]: value
+    //     };
+    //   }, {})
+    // };
+
+    console.log("Save event --", JSON.stringify(nextPayload, null, 2));
+
+    store.updateEvent(nextPayload, this.props.id);
+
+    this.setState({ hasChanges: false });
+  };
+
+  /** Initialize the component state from props. */
+  componentDidUpdate(prevProps) {
+    const keys = Object.keys(this.state.payload);
+
+    let stateChunk = {};
+    let hasChanged = false;
+    keys.forEach(key => {
+      if (prevProps[key] === this.props[key]) {
+        return;
+      }
+
+      let value = this.props[key];
+
+      console.log("BORDEL ", key, value);
+
+      if (
+        key === "eventDate" &&
+        value.length > 0 &&
+        value[value.length - 1] === "Z"
+      ) {
+        value = value.substr(0, value.length - 1);
+      }
+
+      hasChanged = true;
+      stateChunk[key] = value;
+    });
+
+    if (hasChanged) {
+      this.setState(prev => ({
+        ...prev,
+        payload: { ...prev.payload, ...stateChunk }
+      }));
+    }
+  }
+
+  render() {
+    console.log(JSON.stringify(this.state, null, 2));
+    return (
+      <EventDescriptionWrapper onSubmit={this.handleUpdate}>
+        <EventName>
+          <Label>
+            <span>{"Quoi"}</span>
+            <span>{"?"}</span>
+          </Label>
+          <Input
+            value={this.state.payload.name}
+            onChange={this.handleChange("name")}
+          />
+        </EventName>
+        <EventDate>
+          <Label>
+            <span>{"Quand"}</span>
+            <span>{"?"}</span>
+          </Label>
+          <Input
+            type="datetime-local"
+            value={this.state.payload.eventDate}
+            onChange={this.handleChange("eventDate")}
+          />
+        </EventDate>
+        <Address>
+          <Label>
+            <span>{"Où"}</span>
+            <span>{"?"}</span>
+          </Label>
+          <Input
+            value={this.state.payload.address}
+            onChange={this.handleChange("address")}
+          />
+        </Address>
+        <EventDescriptionArea
+          value={this.state.payload.description}
+          onChange={this.handleChange("description")}
+        />
+        {this.state.hasChanges && (
+          <Button type="submit">Enregister les changements</Button>
+        )}
+      </EventDescriptionWrapper>
+    );
+  }
 }
 
 export default EventDescription;

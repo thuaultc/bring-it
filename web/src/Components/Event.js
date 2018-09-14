@@ -14,7 +14,7 @@ const EventWrapper = styled.div`
 `;
 
 const EventDescriptionWrapper = styled.div`
-  height: 200px;
+  height: 350px;
   width: 600px;
 
   background: #f1f1f1;
@@ -42,6 +42,7 @@ function Event(props) {
     <EventWrapper>
       <EventDescriptionWrapper>
         <EventDescription
+          id={props.id}
           name={props.name}
           eventDate={props.eventDate}
           creationDate={props.creationDate}

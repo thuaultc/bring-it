@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+import { store } from "../App";
+
 const CreateForm = styled.form`
   min-height: 400px;
 
@@ -16,8 +18,8 @@ const DescriptionArea = styled.textarea`
 export default class Home extends React.Component {
   state = {
     name: "",
-    event_date: "",
-    creation_date: "",
+    eventDate: "",
+    creationDate: "",
     address: "",
     description: ""
   };
@@ -28,10 +30,10 @@ export default class Home extends React.Component {
 
   handleCreate = ev => {
     ev.preventDefault();
-    const id = window.bringit.Storage.createEvent({
+    const id = store.createEvent({
       ...this.state,
-      creation_date: new Date(),
-      event_date: new Date(this.state.event_date),
+      creationDate: new Date(),
+      eventDate: new Date(this.state.eventDate).toISOString(),
       items: []
     });
     this.props.history.push(`/events/${id}`);
@@ -59,8 +61,8 @@ export default class Home extends React.Component {
                 className="input"
                 type="date"
                 placeholder="Date"
-                value={this.state.event_date}
-                onChange={this.handleChange("event_date")}
+                value={this.state.eventDate}
+                onChange={this.handleChange("eventDate")}
               />
               <input
                 className="input"

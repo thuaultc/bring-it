@@ -1,8 +1,12 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
+import Storage from "../Storage";
+
 import Home from "./Routes/Home";
 import Event from "./Routes/EventFromStorage";
+
+export const store = new Storage();
 
 class Header extends React.Component {
   render() {

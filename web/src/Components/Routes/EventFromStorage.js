@@ -1,5 +1,6 @@
 import React from "react";
 
+import { store } from "../App";
 import Event from "../Event";
 
 const items = [
@@ -34,8 +35,8 @@ const items = [
 export default class EventFromStorage extends React.Component {
   state = {
     name: "Default",
-    event_date: "",
-    creation_date: "",
+    eventDate: "",
+    creationDate: "",
     address: "Void",
     description: "Nil",
     items: []
@@ -43,16 +44,17 @@ export default class EventFromStorage extends React.Component {
 
   componentDidMount() {
     const { match } = this.props;
-    const event = JSON.parse(window.bringit.Storage.getEvent(match.params.id));
+    const event = JSON.parse(store.getEvent(match.params.id));
     this.setState(event.payload);
   }
 
   render() {
     return (
       <Event
+        id={this.props.match.params.id}
         name={this.state.name}
-        eventDate={this.state.event_date}
-        creationDate={this.state.creation_date}
+        eventDate={this.state.eventDate}
+        creationDate={this.state.creationDate}
         address={this.state.address}
         description={this.state.description}
         items={this.state.items}
