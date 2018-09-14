@@ -7,6 +7,7 @@ export default class LocalStorageAPI extends StorageAPI {
 
     localStorage.setItem(id, JSON.stringify({ id, payload }));
 
+    console.log(`[Storage] Create ${id}`);
     return id;
   }
 
@@ -19,7 +20,16 @@ export default class LocalStorageAPI extends StorageAPI {
       );
     }
 
-    localStorage.setItem(id, JSON.stringify({ id, payload }));
+    const prevEvent = JSON.parse(current);
+    const nextEvent = {
+      ...prevEvent,
+      id,
+      payload: { ...prevEvent.payload, ...payload }
+    };
+
+    localStorage.setItem(id, JSON.stringify(nextEvent));
+
+    console.log(`[Storage] Update ${id} ${JSON.stringify(nextEvent, null, 2)}`);
   }
 
   getEvent(id) {
@@ -30,6 +40,8 @@ export default class LocalStorageAPI extends StorageAPI {
         `[LocalStorageAPI] updateEvent(payload, ${id}) -- Event not found in storage.`
       );
     }
+
+    console.log(`[Storage] Get ${id}`);
 
     return current;
   }

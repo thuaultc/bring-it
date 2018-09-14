@@ -52,12 +52,14 @@ export default class Home extends React.Component {
           <div className="lead">
             <CreateForm onSubmit={this.handleCreate}>
               <input
+                required
                 className="input"
                 placeholder="Name"
                 value={this.state.name}
                 onChange={this.handleChange("name")}
               />
               <input
+                required
                 className="input"
                 type="date"
                 placeholder="Date"

@@ -36,13 +36,6 @@ const EventDate = styled.div`
   overflow: hidden;
 `;
 
-// const EventDescriptionCreationDate = styled.div`
-//   background: purple;
-// `;
-/* <EventDescriptionCreationDate>
-        {props.creationDate}
-    </EventDescriptionCreationDate> */
-
 const Address = styled.div`
   grid-column: 1 / 3;
   grid-row: 3;
@@ -54,12 +47,9 @@ const Address = styled.div`
 const EventDescriptionArea = styled.textarea`
   grid-column: 1 / 3;
   grid-row: 4;
-`;
 
-// const GoogleMapWrapper = styled(GoogleMap)`
-//   grid-column: 2;
-//   grid-row: 3;
-// `;
+  resize: none;
+`;
 
 const Input = styled.input`
   flex: 1;
@@ -112,22 +102,6 @@ class EventDescription extends React.Component {
       ...this.state.payload
     };
 
-    // Object.keys(this.state.payload).reduce((acc, key) => {
-    //     let value = this.state.payload[key];
-
-    //     // if (key === "eventDate" && value && value !== "Invalid Date") {
-    //     //   value = new Date(value).toISOString();
-    //     // }
-
-    //     return {
-    //       ...acc,
-    //       [key]: value
-    //     };
-    //   }, {})
-    // };
-
-    console.log("Save event --", JSON.stringify(nextPayload, null, 2));
-
     store.updateEvent(nextPayload, this.props.id);
 
     this.setState({ hasChanges: false });
@@ -145,8 +119,6 @@ class EventDescription extends React.Component {
       }
 
       let value = this.props[key];
-
-      console.log("BORDEL ", key, value);
 
       if (
         key === "eventDate" &&
@@ -169,7 +141,6 @@ class EventDescription extends React.Component {
   }
 
   render() {
-    console.log(JSON.stringify(this.state, null, 2));
     return (
       <EventDescriptionWrapper onSubmit={this.handleUpdate}>
         <EventName>

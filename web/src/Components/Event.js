@@ -27,7 +27,8 @@ const EventDescriptionWrapper = styled.div`
 `;
 
 const EventItemListWrapper = styled.div`
-  height: 200px;
+  min-height: 200px;
+  max-height: 520px;
   width: 600px;
 
   background: #f1f1f1;
@@ -35,6 +36,8 @@ const EventItemListWrapper = styled.div`
 
   /* Add shadows to create the "card" effect */
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+
+  overflow-y: auto;
 `;
 
 function Event(props) {
@@ -51,7 +54,7 @@ function Event(props) {
         />
       </EventDescriptionWrapper>
       <EventItemListWrapper>
-        <ItemList items={props.items} />
+        <ItemList id={props.id} items={props.items} />
       </EventItemListWrapper>
     </EventWrapper>
   );

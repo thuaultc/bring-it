@@ -3,35 +3,6 @@ import React from "react";
 import { store } from "../App";
 import Event from "../Event";
 
-const items = [
-  {
-    name: "Pack Leffe x6",
-    count: 4,
-    needed: 4,
-    guests: [
-      {
-        name: "clément",
-        count: 2
-      },
-      {
-        name: "toto",
-        count: 2
-      }
-    ]
-  },
-  {
-    name: "Vodka 1L",
-    count: 1,
-    needed: 0,
-    guests: [
-      {
-        name: "clément",
-        count: 1
-      }
-    ]
-  }
-];
-
 export default class EventFromStorage extends React.Component {
   state = {
     name: "Default",
