@@ -31,6 +31,7 @@ func APIEventCreate(w http.ResponseWriter, r *http.Request) {
 
 	var event models.Event
 	if err := json.NewDecoder(r.Body).Decode(&event); err != nil {
+		log.Fatal(err)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Invalid request payload"))
 		return
@@ -40,6 +41,7 @@ func APIEventCreate(w http.ResponseWriter, r *http.Request) {
 	event.ID = guid.String()
 
 	err := mongoConn.Create(event)
+
 	if err != nil {
 		w.WriteHeader(http.StatusNotFound)
 		w.Write([]byte("not found"))
@@ -59,6 +61,7 @@ func APIEventUpdate(w http.ResponseWriter, r *http.Request) {
 
 	var event models.Event
 	if err := json.NewDecoder(r.Body).Decode(&event); err != nil {
+		log.Print("err ", err, " event ", event)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write([]byte("Invalid request payload"))
 		return
@@ -123,9 +126,9 @@ func main() {
 	}
 
 	r := mux.NewRouter()
-	r.HandleFunc("/events", APIEventCreate).Methods("POST")
-	r.HandleFunc("/events/{id}", APIEventUpdate).Methods("PUT")
-	r.HandleFunc("/events/{id}", APIEventRead).Methods("GET")
+	r.HandleFunc("/events", APIEventCreate).Methods("POST", "OPTIONS")
+	r.HandleFunc("/events/{id}", APIEventUpdate).Methods("PUT", "OPTIONS")
+	r.HandleFunc("/events/{id}", APIEventRead).Methods("GET", "OPTIONS")
 	r.HandleFunc("/", index)
 
 	if err := http.Serve(l, r); err != nil {

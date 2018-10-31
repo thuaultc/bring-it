@@ -1,5 +1,5 @@
 REGISTRY = registry.thuault.com
-VERSION = 1.0.0
+VERSION = 1.0.1
 
 docker-image: api
 	docker build -t $(REGISTRY)/bring-it/api:$(VERSION) .
