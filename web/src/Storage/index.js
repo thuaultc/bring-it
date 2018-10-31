@@ -1,3 +1,3 @@
-import Storage from "./LocalStorageAPI";
+import Storage from "./StorageAPI";
 
 export default Storage;

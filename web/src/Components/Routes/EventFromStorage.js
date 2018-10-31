@@ -4,7 +4,7 @@ import { store } from "../App";
 import Event from "../Event";
 
 export default class EventFromStorage extends React.Component {
-  state = {
+  state = { 
     name: "Default",
     eventDate: "",
     creationDate: "",
@@ -13,10 +13,10 @@ export default class EventFromStorage extends React.Component {
     items: []
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { match } = this.props;
-    const event = JSON.parse(store.getEvent(match.params.id));
-    this.setState(event.payload);
+    const event = await store.getEvent(match.params.id)
+    this.setState(event);
   }
 
   render() {
@@ -28,7 +28,7 @@ export default class EventFromStorage extends React.Component {
         creationDate={this.state.creationDate}
         address={this.state.address}
         description={this.state.description}
-        items={this.state.items}
+        items={this.state.items} 
       />
     );
   }
