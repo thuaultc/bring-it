@@ -94,7 +94,7 @@ class EventDescription extends React.Component {
     }));
   };
 
-  handleUpdate = ev => {
+  handleUpdate = async(ev) => {
     ev.preventDefault();
 
     const nextPayload = {
@@ -102,7 +102,7 @@ class EventDescription extends React.Component {
       ...this.state.payload
     };
 
-    store.updateEvent(nextPayload, this.props.id);
+    await store.updateEventDesc(nextPayload, this.props.id);
 
     this.setState({ hasChanges: false });
   };

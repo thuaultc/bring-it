@@ -29,11 +29,11 @@ export default class Home extends React.Component {
     this.setState({ [key]: value });
   };
 
-  handleCreate = ev => {
+  handleCreate = async(ev) => {
     ev.preventDefault();
-    const id = store.createEvent({
+    const id = await store.createEvent({
       ...this.state,
-      creationDate: new Date(),
+      creationDate: new Date().toISOString(),
       eventDate: new Date(this.state.eventDate).toISOString(),
       items: []
     });
@@ -89,7 +89,7 @@ export default class Home extends React.Component {
         <h2>Example events</h2>
         <ul>
           <li>
-            <a href="/events/bcenr2tokq1rese4e80g">bcenr2tokq1rese4e80g</a>
+            <a href="/events/bfafifa8hq5p60vug3mg">bfafifa8hq5p60vug3mg</a>
           </li>
         </ul>
       </section>

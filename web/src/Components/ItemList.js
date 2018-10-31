@@ -33,8 +33,8 @@ export default class ItemList extends React.Component {
       prev => ({
         payload: { items }
       }),
-      () => {
-        store.updateEvent(this.state.payload, this.props.id);
+      async() => {
+        await store.updateEventItems(this.state.payload, this.props.id);
       }
     );
   };
@@ -55,8 +55,8 @@ export default class ItemList extends React.Component {
       prev => ({
         payload: { items: [...prev.payload.items, newItem] }
       }),
-      () => {
-        store.updateEvent(this.state.payload, this.props.id);
+      async() => {
+        await store.updateEventItems(this.state.payload, this.props.id);
       }
     );
   };
@@ -67,8 +67,8 @@ export default class ItemList extends React.Component {
       prev => ({
         payload: { items }
       }),
-      () => {
-        store.updateEvent(this.state.payload, this.props.id);
+      async() => {
+        await store.updateEventItems(this.state.payload, this.props.id);
       }
     );
   };
@@ -122,7 +122,7 @@ export default class ItemList extends React.Component {
         <ItemListHeader>
           <div style={{ flex: "0.8" }}>What ?</div>
           <div style={{ flex: "0.2", justifyContent: "flex-end" }}>
-            Current/Total
+            Current/Needed
           </div>
         </ItemListHeader>
         {this.renderItems()}
