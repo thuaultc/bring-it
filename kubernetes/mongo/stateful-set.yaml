@@ -41,17 +41,17 @@ spec:
             - name: secrets-volume
               readOnly: true
               mountPath: /etc/secrets-volume
-            - name: data-volume
-              mountPath: /data/db
-  volumeClaimTemplates:
-    - metadata:
-        name: data-volume
-        namespace: bring-it
-        annotations:
-          volume.beta.kubernetes.io/storage-class: rook-block
-      spec:
-        accessModes: 
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 20Gi
+#            - name: data-volume
+#              mountPath: /data/db
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: data-volume
+#        namespace: bring-it
+#        annotations:
+#          volume.beta.kubernetes.io/storage-class: rook-block
+#      spec:
+#        accessModes: 
+#          - ReadWriteOnce
+#        resources:
+#          requests:
+#            storage: 20Gi
