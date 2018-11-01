@@ -137,7 +137,7 @@ export default class StorageAPI {
         request.inventory.push({
           name: guestIndex,
           item: request.items.findIndex(x => x.name===element.name),
-          count: guest.count
+          quantity: guest.count
         })
       })
     })
