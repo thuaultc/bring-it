@@ -1,11 +1,13 @@
 const apiUrl = 'https://api.bring-it.thuault.com';
 
+var storedEvent = {}
+
 export default class StorageAPI {
   async createEvent(payload) {
     const request = {
       ...payload,
-      creation_date: payload.creationDate,
-      event_date: payload.eventDate,
+      creation_date: new Date(payload.creationDate).toISOString(),
+      event_date: new Date(payload.eventDate).toISOString(),
       items: [],
       users: [],
       inventory: []
@@ -42,6 +44,7 @@ export default class StorageAPI {
   async updateEventDesc(payload, id) {
     console.log("COUCOU", payload)
     const request = {
+      ...storedEvent,
       ...payload,
       creation_date: new Date(payload.creationDate).toISOString(),
       event_date: new Date(payload.eventDate).toISOString()
@@ -51,6 +54,8 @@ export default class StorageAPI {
 
     delete request.creationDate
     delete request.eventDate
+
+    storedEvent = request
 
     const data = await fetch(apiUrl + "/events/" + id, {
       method: 'PUT',
@@ -109,18 +114,35 @@ export default class StorageAPI {
   async updateEventItems(payload, id) {
     console.log("COUCOU", payload)
     const request = {
-      ...payload,
-      creation_date: new Date(payload.creationDate).toISOString(),
-      event_date: new Date(payload.eventDate).toISOString(),
+      ...storedEvent,
       items: [],
       users: [],
       inventory: []
     }
     console.log("COUCOU", request)
-    console.log("COUCOU", id)
+    
+    payload.items.forEach(element => {
+      request.items.push({
+        name: element.name,
+        needed: element.needed
+      })
+      element.guests.forEach(guest => {
+        var guestIndex = request.users.findIndex(x => x.name===guest.name)
+        if (guestIndex === -1) {
+          request.users.push({
+            name: guest.name
+          })
+          guestIndex = request.users.findIndex(x => x.name===guest.name)
+        }
+        request.inventory.push({
+          name: guestIndex,
+          item: request.items.findIndex(x => x.name===element.name),
+          count: guest.count
+        })
+      })
+    })
 
-    delete request.creationDate
-    delete request.eventDate
+    storedEvent = request
 
     const data = await fetch(apiUrl + "/events/" + id, {
       method: 'PUT',
@@ -186,6 +208,7 @@ export default class StorageAPI {
     .then(function(data) {
       console.log('successfully get event data')
       console.log(data)
+      storedEvent = data
       return data
     })
     .then(function(data) {
