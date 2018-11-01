@@ -41,12 +41,12 @@ export default class ItemList extends React.Component {
 
   handleNewDrink = ev => {
     const newItem = {
-      name: "Default",
+      name: "Item name",
       count: 0,
       needed: 0,
       guests: [
         {
-          name: "Jean Michelle de la Bière",
+          name: "Guest name",
           count: 0
         }
       ]
@@ -118,11 +118,11 @@ export default class ItemList extends React.Component {
   render() {
     return (
       <ItemListWrapper>
-        <button onClick={this.handleNewDrink}>New Drink</button>
+        <button onClick={this.handleNewDrink}>Add a new item</button>
         <ItemListHeader>
-          <div style={{ flex: "0.8" }}>What ?</div>
+          <div style={{ flex: "0.8" }}>Item</div>
           <div style={{ flex: "0.2", justifyContent: "flex-end" }}>
-            Current/Needed
+            Amount (Current/Needed)
           </div>
         </ItemListHeader>
         {this.renderItems()}

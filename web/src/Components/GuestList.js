@@ -15,8 +15,8 @@ const GuestListWrapper = styled.div`
 class GuestList extends React.Component {
   handleNewGuest = ev => {
     const newGuest = {
-      name: "Jean La Binouze",
-      count: "0"
+      name: "Guest name",
+      count: 0
     };
 
     const nextGuest = [...this.props.guests, newGuest];
@@ -51,7 +51,7 @@ class GuestList extends React.Component {
 
     return (
       <GuestListWrapper>
-        <button onClick={this.handleNewGuest}>New Guest</button>
+        <button onClick={this.handleNewGuest}>Add someone who brings this item</button>
         {guests}
       </GuestListWrapper>
     );

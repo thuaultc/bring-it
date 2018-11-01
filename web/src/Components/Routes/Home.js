@@ -46,8 +46,7 @@ export default class Home extends React.Component {
         <div className="jumbotron">
           <h1 className="display-4">Bring it!</h1>
           <p className="lead">
-            A simple application to settle on who is bringing what to your next
-            event!
+            Settle on who is bringing what to your next event!
           </p>
           <hr className="my-4" />
           <div className="lead">
@@ -85,13 +84,6 @@ export default class Home extends React.Component {
             </CreateForm>
           </div>
         </div>
-
-        <h2>Example events</h2>
-        <ul>
-          <li>
-            <a href="/events/bfafifa8hq5p60vug3mg">bfafifa8hq5p60vug3mg</a>
-          </li>
-        </ul>
       </section>
     );
   }
