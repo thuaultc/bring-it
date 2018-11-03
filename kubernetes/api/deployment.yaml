@@ -15,12 +15,14 @@ spec:
       imagePullSecrets:
       - name: registry-credentials
       containers:
-      - image: registry.thuault.com/bring-it/api:1.0.1
+      - image: registry.thuault.com/bring-it/api:1.0.2
         imagePullPolicy: Always
         name: api
         ports:
         - containerPort: 8080
         env:
+        - name: CORS_ALLOWED_ORIGIN
+          value: "https://bring-it.thuault.com"
         - name: DB_URI
           valueFrom:
             secretKeyRef:
