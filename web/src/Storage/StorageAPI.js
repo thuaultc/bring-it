@@ -16,8 +16,6 @@ export default class StorageAPI {
     delete request.creationDate
     delete request.eventDate
 
-    console.log(request)
-
     const data = await fetch(apiUrl + "/events", {
       method: 'POST',
       body: JSON.stringify(request)
@@ -42,15 +40,12 @@ export default class StorageAPI {
   }
 
   async updateEventDesc(payload, id) {
-    console.log("COUCOU", payload)
     const request = {
       ...storedEvent,
       ...payload,
       creation_date: new Date(payload.creationDate).toISOString(),
       event_date: new Date(payload.eventDate).toISOString()
     }
-    console.log("COUCOU", request)
-    console.log("COUCOU", id)
 
     delete request.creationDate
     delete request.eventDate
@@ -112,14 +107,12 @@ export default class StorageAPI {
   }
 
   async updateEventItems(payload, id) {
-    console.log("COUCOU", payload)
     const request = {
       ...storedEvent,
       items: [],
       users: [],
       inventory: []
     }
-    console.log("COUCOU", request)
     
     payload.items.forEach(element => {
       request.items.push({
