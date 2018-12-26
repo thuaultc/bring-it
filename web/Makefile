@@ -1,5 +1,5 @@
 REGISTRY = registry.thuault.com
-VERSION = 0.5.1
+VERSION = 0.6.0
 
 docker-image: build
 	docker build -t $(REGISTRY)/bring-it/web:$(VERSION) .
