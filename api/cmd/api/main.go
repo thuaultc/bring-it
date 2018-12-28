@@ -125,18 +125,23 @@ func init() {
 func main() {
 	addr := flag.String("addr", ":8080", "address to listen on")
 	flag.Parse()
+	log.Print("Bring-it API starting...")
 
+	log.Print("Trying to listen on TCP port ", *addr)
 	l, err := net.Listen("tcp", *addr)
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	log.Print("Creating router...")
 	r := mux.NewRouter()
 	r.HandleFunc("/events", APIEventCreate).Methods("POST", "OPTIONS")
 	r.HandleFunc("/events/{id}", APIEventUpdate).Methods("PUT", "OPTIONS")
 	r.HandleFunc("/events/{id}", APIEventRead).Methods("GET", "OPTIONS")
+
 	r.HandleFunc("/", index)
 
+	log.Print("Serving HTTP - waiting for connections...")
 	if err := http.Serve(l, r); err != nil {
 		log.Fatal(err)
 	}
