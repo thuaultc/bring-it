@@ -1,9 +1,17 @@
 REGISTRY = registry.thuault.com
 VERSION = 1.0.2
 
-docker-image: api
-	docker build -t $(REGISTRY)/bring-it/api:$(VERSION) .
-	docker push $(REGISTRY)/bring-it/api:$(VERSION)
+build: api
+	REGISTRY=$(REGISTRY) VERSION=$(VERSION) docker-compose build
+
+push: build
+	REGISTRY=$(REGISTRY) VERSION=$(VERSION) docker-compose push
+
+run:
+	REGISTRY=$(REGISTRY) VERSION=$(VERSION) docker-compose up -d
+
+clean:
+	REGISTRY=$(REGISTRY) VERSION=$(VERSION) docker-compose down
 
 .PHONY: api
 api:

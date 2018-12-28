@@ -1,0 +1,20 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    env_file: .mongo.env
+    ports:
+      - 27017:27017
+
+  api:
+    build: .
+    image: "${REGISTRY}/bring-it/api:${VERSION}"
+    container_name: api
+    env_file: .api.env
+    ports:
+      - 8080:8080
+    links:
+      - mongo
+    depends_on:
+      - mongo
