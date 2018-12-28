@@ -15,7 +15,7 @@ spec:
       imagePullSecrets:
       - name: registry-credentials
       containers:
-      - image: registry.thuault.com/bring-it/web:0.6.0
+      - image: registry.thuault.com/bring-it/web:0.6.2
         imagePullPolicy: Always
         name: web
         ports:
