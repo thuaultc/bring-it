@@ -8,12 +8,12 @@ import (
 type Event struct {
 	ID           string      `bson:"_id" json:"id"`
 	Name         string      `bson:"name" json:"name"`
-	EventDate    time.Time   `bson:"event_date" json:"event_date"`
 	CreationDate time.Time   `bson:"creation_date" json:"creation_date"`
+	EventDate    time.Time   `bson:"event_date" json:"event_date"`
+	Host         uint        `bson:"host_id" json:"host_id"`
 	Address      string      `bson:"address" json:"address"`
 	Description  string      `bson:"description" json:"description"`
 	Items        []Item      `bson:"items" json:"items"`
-	Users        []User      `bson:"users" json:"users"`
 	Inventory    []Inventory `bson:"inventory" json:"inventory"`
 }
 
@@ -23,14 +23,9 @@ type Item struct {
 	Needed uint   `bson:"needed" json:"needed"`
 }
 
-// User structure contains the user names and ids
-type User struct {
-	Name string `bson:"name" json:"name"`
-}
-
 // Inventory structure represents which user brings what amount of a specific item
 type Inventory struct {
-	User     uint `bson:"user" json:"name"`
-	Item     uint `bson:"item" json:"item"`
-	Quantity uint `bson:"quantity" json:"quantity"`
+	Guest  uint `bson:"guest_id" json:"guest_id"`
+	Item   uint `bson:"item_id" json:"item_id"`
+	Amount uint `bson:"amount" json:"amount"`
 }
