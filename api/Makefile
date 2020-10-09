@@ -1,5 +1,5 @@
 REGISTRY = registry.thuault.com
-VERSION = 1.0.2
+VERSION = 1.0.3
 
 build: api
 	REGISTRY=$(REGISTRY) VERSION=$(VERSION) docker-compose build
@@ -7,7 +7,7 @@ build: api
 push: build
 	REGISTRY=$(REGISTRY) VERSION=$(VERSION) docker-compose push
 
-run:
+run: build
 	REGISTRY=$(REGISTRY) VERSION=$(VERSION) docker-compose up -d
 
 clean:
